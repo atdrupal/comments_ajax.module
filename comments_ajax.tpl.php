@@ -16,7 +16,8 @@
               <?php print $avatar?>
 						</a>
 					</div>
-					<div class="comment_detail"><a href="<?php print "/users/" . $user->uid?>" ><?php print $user->name?></a><p>How do this function working?</p>
+					<div class="comment_detail"><a href="<?php print "/users/" . $user->uid?>" ><?php print $user->name?></a>
+            <div class="comment_body"><p>How do this function working?</p></div>
 					</div>
 					<div class="comment_info">
 						<ul>
