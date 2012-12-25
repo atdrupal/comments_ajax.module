@@ -15,17 +15,16 @@ function comments_ajax_menu() {
 }
 
 function comments_ajax_load($nid){
-  $viewName = 'products_by_category'; // The name of the view we are going to load
-  $args = array($category);  // Array of arguments we set for the view. Only one argument in our example. your actual view may require additional arguments which you may need to set
-  $displayId = 'page'; // The display id of for the view. 
   // Call the views_embed_view function to returned themed view output
-  $res = views_embed_view($viewName, $displayId, $args);
+  $res = views_embed_view('newsfeed_comment', 'block_2', array($nid));
   // create a JSON object. The object will contain a property named “products” that will be set with the themed result of the executed view. 
-  return drupal_json(array('products'=>$res));
+  return drupal_json(array('comments'=>$res));
   exit;
 }
 
- 
+/**
+ * Implement hook_theme().
+ */
 function comments_ajax_theme() {
    return array(
       'comments_ajax_javascript' => array(
@@ -34,6 +33,9 @@ function comments_ajax_theme() {
    );   
 }
 
+/**
+ * Implement hook_init().
+ */
 function comments_ajax_init() {
   theme('comments_ajax_javascript');
 }
