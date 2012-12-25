@@ -12,6 +12,11 @@ function comments_ajax_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
+  $items['comments/form/ajax/add'] = array(
+    'page callback' => 'comments_ajax_form_callback',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -31,3 +36,97 @@ function comments_ajax_init() {
   drupal_add_js(drupal_get_path('module', 'comments_ajax') . '/comments_ajax.js');
 }
 
+
+function comments_ajax_comment_form($form, $form_state, $nid) {
+  $form = array();
+  $form['comment']=array(
+    '#type' => 'textfield',
+    '#title' => 'Comment',
+    '#size' => 20,
+    '#maxlength' => 200,
+    '#required' => TRUE
+  );
+  $form['submit'] = array(
+      '#type' => 'submit',
+      '#name' => 'submit' . intval($nid),
+      '#value' => 'Save comment',
+      );
+  $form['nid'] = array(
+      '#type' => 'hidden',
+      '#value' => intval($nid),
+      );
+  $form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('comment'),
+		'#submit' => array(),
+		'#ahah' => array(
+			'path' => 'comments/form/ajax/add',
+			'wrapper' => 'divComments-' . $nid,
+			'method' => 'prepend',
+			'effect' => 'fade',
+			'progress' => array('type' => 'bar', 'message' => t('Please wait...')),
+		),
+	);
+  return $form;
+}
+//
+//function comments_ajax_comment_form_submit($form, &$form_state) {
+//  global $user;
+//  $comment = array();
+//  $comment['nid'] = $form_state['values']['nid'];
+//  $comment['uid'] = $user->uid;
+//  $comment['comment'] = $form_state['values']['comment'];
+//  comment_save($comment);
+//}
+
+
+function comments_ajax_form_callback() {
+  global $user;
+	
+	$output = '';
+	$nid = $_REQUEST['nid'];
+  $output .= '<div class="messages error ahah-example-msg">Access denied' . $nid . '.</div>';
+//	//error checking
+//	if (!$user->uid) {
+//		$output .= '<div class="messages error ahah-example-msg">Access denied.</div>';
+//	}
+//	if ($_REQUEST['new_title'] == '') {
+//		$output .= '<div class="messages error ahah-example-msg">Please enter a title</div>';
+//	}
+//	if ($_REQUEST['new_body'] == '') {
+//		$output .= '<div class="messages error ahah-example-msg">Body field is required.</div>';
+//	}
+//	
+//	//no error, save node
+//	if (!$output) {
+//		$node = new StdClass();
+//		$node->type = 'page';
+//		$node->status = 1;
+//		$node->uid = $user->uid;
+//		$node->title = $_REQUEST['new_title'];
+//		$node->body = $_REQUEST['new_body'];
+//		node_save($node);
+//		if ($node->nid) {
+//			$output = '
+//			<div class="messages status ahah-example-msg">Successfully saved your page.</div>
+//			<script type="text/javascript">
+//			$("#edit-new-title").val("");
+//			$("#edit-new-body").val("");
+//			</script>
+//			<div><a href="'.url('node/'.$node->nid).'">Node '.$node->nid.' - '.$node->title.'</a></div>';
+//		} else {
+//			$output = '<div class="messages error ahah-example-msg">An error occurred, we cannot add your node at this time.</div>';
+//		}
+//	}
+//	
+//	//remove status message after 10 seconds
+//	$output .= '
+//		<script type="text/javascript">
+//		$("#edit-new-title").val("");
+//		$("#edit-new-body").val("");
+//		setTimeout("$(\'.ahah-example-msg\').remove();", 10000);
+//		</script>';
+
+	//send output back to browser
+	drupal_json(array('status' => TRUE, 'data' => $output));
+}
