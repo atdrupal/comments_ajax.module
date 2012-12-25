@@ -4,7 +4,7 @@ Drupal.behaviors.comments_ajax = function (context) {
     // This function will get exceuted after the ajax request is completed successfully
     var updateComments = function(data) {
       // The data parameter is a JSON object. The “comments” property is the list of products items that was returned from the server response to the ajax request.
-      $('#divComments').html(data.comments);
+      $("#" + "divComments-" + data.nid).html(data.comments);
     }
     $.ajax({
       type: 'POST',
