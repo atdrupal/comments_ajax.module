@@ -18,7 +18,7 @@
 						</a>
 					</div>
 					<div class="comment_detail"><a href="<?php print "/users/" . $user->uid?>" ><?php print $profile->title?></a>
-            <div class="comment_body"><p>How do this function working?</p></div>
+            <div class="comment_body"><?php $comment->comment ?></div>
 					</div>
 					<div class="comment_info">
 						<ul>
