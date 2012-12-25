@@ -80,7 +80,7 @@ function comments_ajax_theme() {
 function comments_ajax_form_callback() {
   global $user;
   $profile = content_profile_load('basic', $user->uid, '', NULL);
-  $user_image_path = $user->field_user_picture[0]['filepath'];
+  $user_image_path = $profile->field_user_picture[0]['filepath'];
   if (trim($user_image_path) == '') {
     $user_image_path = drupal_get_path('module', 'fb_style_dropdown').'/default.gif';
   }
