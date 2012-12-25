@@ -42,7 +42,7 @@ function comments_ajax_comment_form($form_state, $nid) {
   $form['comment']=array(
     '#type' => 'textarea',
     '#title' => 'Comment',
-    '#size' => 20,
+    '#size' => 3,
     '#maxlength' => 200,
     '#required' => TRUE,
     '#default_value' => 'Reply or add a comment',
@@ -53,7 +53,7 @@ function comments_ajax_comment_form($form_state, $nid) {
       );
   $form['submit'] = array(
 		'#type' => 'submit',
-		'#value' => t('comment'),
+		'#value' => t('post'),
 		'#submit' => array(),
 		'#ahah' => array(
 			'path' => 'comments/form/ajax/add',
