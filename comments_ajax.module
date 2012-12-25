@@ -37,7 +37,7 @@ function comments_ajax_init() {
 }
 
 
-function comments_ajax_comment_form($form, $form_state, $nid) {
+function comments_ajax_comment_form($form_state, $nid) {
   $form = array();
   $form['comment']=array(
     '#type' => 'textfield',
@@ -46,14 +46,9 @@ function comments_ajax_comment_form($form, $form_state, $nid) {
     '#maxlength' => 200,
     '#required' => TRUE
   );
-  $form['submit'] = array(
-      '#type' => 'submit',
-      '#name' => 'submit' . intval($nid),
-      '#value' => 'Save comment',
-      );
   $form['nid'] = array(
       '#type' => 'hidden',
-      '#value' => intval($nid),
+      '#value' => $nid,
       );
   $form['submit'] = array(
 		'#type' => 'submit',
