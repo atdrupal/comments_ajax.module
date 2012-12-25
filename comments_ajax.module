@@ -69,7 +69,7 @@ function comments_ajax_comment_form($form_state, $nid) {
 
 function comments_ajax_theme() {
   return array(
-    'comments_ajax' => array(
+    'comments_ajax_theme' => array(
       'template' => 'comments_ajax',
       'arguments' => array('user' => NULL, 'comment' => NULL, 'avatar' => NULL),
     ),
@@ -85,8 +85,6 @@ function comments_ajax_form_callback() {
   $user_image = theme('imagecache', 'newsfeeds_comment_avatar', $user_image_path);
   $avatar =  l($user_image, 'user/' . $user->uid, array('attributes' => array('target'=>"_blank"), 'html' => TRUE,));
   
-	$output = '';
-  global $user;
   $comment = array();
   $comment['nid'] = $_REQUEST['nid'];
   $comment['uid'] = $user->uid;
