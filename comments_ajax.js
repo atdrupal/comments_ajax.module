@@ -6,6 +6,7 @@ Drupal.behaviors.comments_ajax = function (context) {
       // The data parameter is a JSON object. The “comments” property is the list of products items that was returned from the server response to the ajax request.
       $("#" + "divComments-" + data.nid).html(data.comments);
     }
+    $('#my-loading').css('visibility','visible');
     $.ajax({
       type: 'POST',
       url: this.href, // Which url should be handle the ajax request. This is the url defined in the <a> html tag
