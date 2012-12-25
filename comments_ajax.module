@@ -40,11 +40,12 @@ function comments_ajax_init() {
 function comments_ajax_comment_form($form_state, $nid) {
   $form = array();
   $form['comment']=array(
-    '#type' => 'textfield',
+    '#type' => 'textarea',
     '#title' => 'Comment',
     '#size' => 20,
     '#maxlength' => 200,
-    '#required' => TRUE
+    '#required' => TRUE,
+    '#default' => 'Reply or add a comment',
   );
   $form['nid'] = array(
       '#type' => 'hidden',
@@ -64,101 +65,37 @@ function comments_ajax_comment_form($form_state, $nid) {
 	);
   return $form;
 }
-//
-//function comments_ajax_comment_form_submit($form, &$form_state) {
-//  global $user;
-//  $comment = array();
-//  $comment['nid'] = $form_state['values']['nid'];
-//  $comment['uid'] = $user->uid;
-//  $comment['comment'] = $form_state['values']['comment'];
-//  comment_save($comment);
-//}
 
+
+function comments_ajax_theme() {
+  return array(
+    'comments_ajax' => array(
+      'template' => 'comments_ajax',
+      'arguments' => array('user' => NULL, 'comment' => NULL, 'avatar' => NULL),
+    ),
+  );
+}
 
 function comments_ajax_form_callback() {
   global $user;
-	
+  $user_image_path = $user->field_user_picture[0]['filepath'];
+  if (trim($user_image_path) == '') {
+    $user_image_path = drupal_get_path('module', 'fb_style_dropdown').'/default.gif';
+  }
+  $user_image = theme('imagecache', 'newsfeeds_comment_avatar', $user_image_path);
+  $avatar =  l($user_image, 'user/' . $user->uid, array('attributes' => array('target'=>"_blank"), 'html' => TRUE,));
+  
 	$output = '';
-	$nid = $_REQUEST['nid'];
-  $output .= '<div class="messages error ahah-example-msg">Access denied' . $nid . '.</div>';
-//	//error checking
-//	if (!$user->uid) {
-//		$output .= '<div class="messages error ahah-example-msg">Access denied.</div>';
-//	}
-//	if ($_REQUEST['new_title'] == '') {
-//		$output .= '<div class="messages error ahah-example-msg">Please enter a title</div>';
-//	}
-//	if ($_REQUEST['new_body'] == '') {
-//		$output .= '<div class="messages error ahah-example-msg">Body field is required.</div>';
-//	}
-//	
-//	//no error, save node
-//	if (!$output) {
-//		$node = new StdClass();
-//		$node->type = 'page';
-//		$node->status = 1;
-//		$node->uid = $user->uid;
-//		$node->title = $_REQUEST['new_title'];
-//		$node->body = $_REQUEST['new_body'];
-//		node_save($node);
-//		if ($node->nid) {
-//			$output = '
-//			<div class="messages status ahah-example-msg">Successfully saved your page.</div>
-//			<script type="text/javascript">
-//			$("#edit-new-title").val("");
-//			$("#edit-new-body").val("");
-//			</script>
-//			<div><a href="'.url('node/'.$node->nid).'">Node '.$node->nid.' - '.$node->title.'</a></div>';
-//		} else {
-//			$output = '<div class="messages error ahah-example-msg">An error occurred, we cannot add your node at this time.</div>';
-//		}
-//	}
-//	
-//	//remove status message after 10 seconds
-//	$output .= '
-//		<script type="text/javascript">
-//		$("#edit-new-title").val("");
-//		$("#edit-new-body").val("");
-//		setTimeout("$(\'.ahah-example-msg\').remove();", 10000);
-//		</script>';
-
-	//send output back to browser
-  $output = "<div class='view view-newsfeed-comment view-id-newsfeed_comment view-display-id-block_1 view-dom-id-9e00e950c25a5d26a25de99fe0404c9c'>".
-      "<div class='views-admin-links views-hide'>".
-      "<ul class='links'><li class='0 first'><a href='/admin/build/views/edit/newsfeed_comment?destination=newsfeed#views-tab-block_1'>Edit view</a></li>".
-"<li class='1 last'><a href='/admin/build/block/configure/views/newsfeed_comment-block_1?destination=newsfeed'>Configure</a></li>".
-"</ul>    </div>".
-"<div class='view-content'>".
-        "<div class='views-row views-row-1 views-row-odd views-row-first'>".
-  "<div class='views-field views-field-nothing'>        <span class='field-content'><div class='author_image'><a target='_blank' href='/users/test'><img width='31' height='35' class='imagecache imagecache-newsfeeds_comment_avatar' title='' alt='' src='http://staging.academicroom.com/sites/default/files/imagecache/newsfeeds_comment_avatar/imagecache/img_featured_profile/druplicon.large_.png'></a></div>".
-"<div class='comment_detail'><a href='/users/test'>Andy Truong</a><p>How do this function working?</p>".
-"</div>".
-"<div class='comment_info'>".
-"<ul>".
-"<li class='date'>Dec 24, 2012 at 3:00 PM</li>".
-"<li><a href='/comment/reply/102047/188'>Reply</a></li>".
-"<li class='fb_like'><fb:like colorscheme='dark' font='verdana' action='like' width='350' show_faces='false' layout='button_count' href='http://staging.academicroom.com/node/' fb-xfbml-state='rendered' class='fb_edge_widget_with_comment fb_iframe_widget'><span style='height: 20px; width: 75px;'><iframe scrolling='no' id='f3a53fb86f8437e' name='ff1b5ad8914ec6' style='border: medium none; overflow: hidden; height: 20px; width: 75px;' title='Like this content on Facebook.' class='fb_ltr' src='http://www.facebook.com/plugins/like.php?api_key=&amp;locale=en_US&amp;sdk=joey&amp;channel_url=http%3A%2F%2Fstatic.ak.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D18%23cb%3Df12f57d87bc59e4%26origin%3Dhttp%253A%252F%252Fstaging.academicroom.com%252Ffb9060c3bed8aa%26domain%3Dstaging.academicroom.com%26relation%3Dparent.parent&amp;href=http%3A%2F%2Fstaging.academicroom.com%2Fnode%2F&amp;node_type=link&amp;width=350&amp;font=verdana&amp;layout=button_count&amp;colorscheme=dark&amp;action=like&amp;show_faces=false&amp;extended_social_context=false'></iframe></span></fb:like></li>".
-"<li><a>Report</a></li>".
-"</ul>".
-"</div></span>  </div>  </div>".
-  "<div class='views-row views-row-2 views-row-even views-row-last'>".
-  "<div class='views-field views-field-nothing'>        <span class='field-content'><div class='author_image'><a target='_blank' href='/users/test'><img width='31' height='35' class='imagecache imagecache-newsfeeds_comment_avatar' title='' alt='' src='http://staging.academicroom.com/sites/default/files/imagecache/newsfeeds_comment_avatar/imagecache/img_featured_profile/druplicon.large_.png'></a></div>".
-"<div class='comment_detail'><a href='/users/test'>Andy Truong</a><p>Great! It work well :)</p>".
-"</div>".
-"<div class='comment_info'>".
-"<ul>".
-"<li class='date'>Dec 24, 2012 at 3:01 PM</li>".
-"<li><a href='/comment/reply/102047/189'>Reply</a></li>".
-"<li class='fb_like'><fb:like colorscheme='dark' font='verdana' action='like' width='350' show_faces='false' layout='button_count' href='http://staging.academicroom.com/node/' fb-xfbml-state='rendered' class='fb_edge_widget_with_comment fb_iframe_widget'><span style='height: 20px; width: 75px;'><iframe scrolling='no' id='f263801d4e4e986' name='f8271d44b2b8b2' style='border: medium none; overflow: hidden; height: 20px; width: 75px;' title='Like this content on Facebook.' class='fb_ltr' src='http://www.facebook.com/plugins/like.php?api_key=&amp;locale=en_US&amp;sdk=joey&amp;channel_url=http%3A%2F%2Fstatic.ak.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D18%23cb%3Df15eca52da33b5%26origin%3Dhttp%253A%252F%252Fstaging.academicroom.com%252Ffb9060c3bed8aa%26domain%3Dstaging.academicroom.com%26relation%3Dparent.parent&amp;href=http%3A%2F%2Fstaging.academicroom.com%2Fnode%2F&amp;node_type=link&amp;width=350&amp;font=verdana&amp;layout=button_count&amp;colorscheme=dark&amp;action=like&amp;show_faces=false&amp;extended_social_context=false'></iframe></span></fb:like></li>".
-"<li><a>Report</a></li>".
-"</ul>".
-"</div></span>  </div>  </div></div></div>";
+  global $user;
+  $comment = array();
+  $comment['nid'] = $_REQUEST['nid'];
+  $comment['uid'] = $user->uid;
+  $comment['comment'] = $_REQUEST['comment'];
+  $cid = comment_save($comment);
+  $comment = _comment_load($cid);
+  
+	$output = theme('comments_ajax_theme', $user, $comment, $avatar);
   
   
-  
-  
-  
-  
-
 	drupal_json(array('status' => TRUE, 'data' => $output));
 }
