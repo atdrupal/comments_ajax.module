@@ -7,7 +7,7 @@ Drupal.behaviors.comments_ajax = function (context) {
       $("#" + "divComments-" + data.nid).html(data.comments);
     }
     var args = this.href.split("/");
-    $("#" + "my-loading" + args[3]).css('visibility','visible');
+    $("#" + "my-loading-" + args[3]).css('visibility','visible');
     $.ajax({
       type: 'POST',
       url: this.href, // Which url should be handle the ajax request. This is the url defined in the <a> html tag
