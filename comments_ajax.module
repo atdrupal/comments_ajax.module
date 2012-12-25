@@ -57,7 +57,7 @@ function comments_ajax_comment_form($form_state, $nid) {
 		'#ahah' => array(
 			'path' => 'comments/form/ajax/add',
 			'wrapper' => 'divComments-' . $nid,
-			'method' => 'prepend',
+			'method' => 'append',
 			'effect' => 'fade',
 			'progress' => array('type' => 'bar', 'message' => t('Please wait...')),
 		),
@@ -123,5 +123,42 @@ function comments_ajax_form_callback() {
 //		</script>';
 
 	//send output back to browser
+  $output = "<div class='view view-newsfeed-comment view-id-newsfeed_comment view-display-id-block_1 view-dom-id-9e00e950c25a5d26a25de99fe0404c9c'>".
+      "<div class='views-admin-links views-hide'>".
+      "<ul class='links'><li class='0 first'><a href='/admin/build/views/edit/newsfeed_comment?destination=newsfeed#views-tab-block_1'>Edit view</a></li>".
+"<li class='1 last'><a href='/admin/build/block/configure/views/newsfeed_comment-block_1?destination=newsfeed'>Configure</a></li>".
+"</ul>    </div>".
+"<div class='view-content'>".
+        "<div class='views-row views-row-1 views-row-odd views-row-first'>".
+  "<div class='views-field views-field-nothing'>        <span class='field-content'><div class='author_image'><a target='_blank' href='/users/test'><img width='31' height='35' class='imagecache imagecache-newsfeeds_comment_avatar' title='' alt='' src='http://staging.academicroom.com/sites/default/files/imagecache/newsfeeds_comment_avatar/imagecache/img_featured_profile/druplicon.large_.png'></a></div>".
+"<div class='comment_detail'><a href='/users/test'>Andy Truong</a><p>How do this function working?</p>".
+"</div>".
+"<div class='comment_info'>".
+"<ul>".
+"<li class='date'>Dec 24, 2012 at 3:00 PM</li>".
+"<li><a href='/comment/reply/102047/188'>Reply</a></li>".
+"<li class='fb_like'><fb:like colorscheme='dark' font='verdana' action='like' width='350' show_faces='false' layout='button_count' href='http://staging.academicroom.com/node/' fb-xfbml-state='rendered' class='fb_edge_widget_with_comment fb_iframe_widget'><span style='height: 20px; width: 75px;'><iframe scrolling='no' id='f3a53fb86f8437e' name='ff1b5ad8914ec6' style='border: medium none; overflow: hidden; height: 20px; width: 75px;' title='Like this content on Facebook.' class='fb_ltr' src='http://www.facebook.com/plugins/like.php?api_key=&amp;locale=en_US&amp;sdk=joey&amp;channel_url=http%3A%2F%2Fstatic.ak.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D18%23cb%3Df12f57d87bc59e4%26origin%3Dhttp%253A%252F%252Fstaging.academicroom.com%252Ffb9060c3bed8aa%26domain%3Dstaging.academicroom.com%26relation%3Dparent.parent&amp;href=http%3A%2F%2Fstaging.academicroom.com%2Fnode%2F&amp;node_type=link&amp;width=350&amp;font=verdana&amp;layout=button_count&amp;colorscheme=dark&amp;action=like&amp;show_faces=false&amp;extended_social_context=false'></iframe></span></fb:like></li>".
+"<li><a>Report</a></li>".
+"</ul>".
+"</div></span>  </div>  </div>".
+  "<div class='views-row views-row-2 views-row-even views-row-last'>".
+  "<div class='views-field views-field-nothing'>        <span class='field-content'><div class='author_image'><a target='_blank' href='/users/test'><img width='31' height='35' class='imagecache imagecache-newsfeeds_comment_avatar' title='' alt='' src='http://staging.academicroom.com/sites/default/files/imagecache/newsfeeds_comment_avatar/imagecache/img_featured_profile/druplicon.large_.png'></a></div>".
+"<div class='comment_detail'><a href='/users/test'>Andy Truong</a><p>Great! It work well :)</p>".
+"</div>".
+"<div class='comment_info'>".
+"<ul>".
+"<li class='date'>Dec 24, 2012 at 3:01 PM</li>".
+"<li><a href='/comment/reply/102047/189'>Reply</a></li>".
+"<li class='fb_like'><fb:like colorscheme='dark' font='verdana' action='like' width='350' show_faces='false' layout='button_count' href='http://staging.academicroom.com/node/' fb-xfbml-state='rendered' class='fb_edge_widget_with_comment fb_iframe_widget'><span style='height: 20px; width: 75px;'><iframe scrolling='no' id='f263801d4e4e986' name='f8271d44b2b8b2' style='border: medium none; overflow: hidden; height: 20px; width: 75px;' title='Like this content on Facebook.' class='fb_ltr' src='http://www.facebook.com/plugins/like.php?api_key=&amp;locale=en_US&amp;sdk=joey&amp;channel_url=http%3A%2F%2Fstatic.ak.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D18%23cb%3Df15eca52da33b5%26origin%3Dhttp%253A%252F%252Fstaging.academicroom.com%252Ffb9060c3bed8aa%26domain%3Dstaging.academicroom.com%26relation%3Dparent.parent&amp;href=http%3A%2F%2Fstaging.academicroom.com%2Fnode%2F&amp;node_type=link&amp;width=350&amp;font=verdana&amp;layout=button_count&amp;colorscheme=dark&amp;action=like&amp;show_faces=false&amp;extended_social_context=false'></iframe></span></fb:like></li>".
+"<li><a>Report</a></li>".
+"</ul>".
+"</div></span>  </div>  </div></div></div>";
+  
+  
+  
+  
+  
+  
+
 	drupal_json(array('status' => TRUE, 'data' => $output));
 }
