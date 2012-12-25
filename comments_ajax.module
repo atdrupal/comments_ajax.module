@@ -45,7 +45,7 @@ function comments_ajax_comment_form($form_state, $nid) {
     '#size' => 20,
     '#maxlength' => 200,
     '#required' => TRUE,
-    '#default' => 'Reply or add a comment',
+    '#default_value' => 'Reply or add a comment',
   );
   $form['nid'] = array(
       '#type' => 'hidden',
