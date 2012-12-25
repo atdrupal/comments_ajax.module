@@ -1,0 +1,4 @@
+name = Comment Ajax
+description = "Load comments use ajax"
+package = "Viet Coop"
+core = 6.x
