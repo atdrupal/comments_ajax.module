@@ -31,32 +31,3 @@ function comments_ajax_init() {
   drupal_add_js(drupal_get_path('module', 'comments_ajax') . '/comments_ajax.js');
 }
 
-function comments_ajax_comment_form($form, $form_state, $nid) {
-  $form = array();
-  $form['comment']=array(
-    '#type' => 'textfield',
-    '#title' => 'Comment',
-    '#size' => 20,
-    '#maxlength' => 200,
-    '#required' => TRUE
-  );
-  $form['submit'] = array(
-      '#type' => 'submit',
-      '#name' => 'submit' . intval($nid),
-      '#value' => 'Save comment',
-      );
-  $form['nid'] = array(
-      '#type' => 'hidden',
-      '#value' => intval($nid),
-      );
-  return $form;
-}
-
-function comments_ajax_comment_form_submit($form, &$form_state) {
-  global $user;
-  $comment = array();
-  $comment['nid'] = $form_state['values']['nid'];
-  $comment['uid'] = $user->uid;
-  $comment['comment'] = $form_state['values']['comment'];
-  comment_save($comment);
-}
