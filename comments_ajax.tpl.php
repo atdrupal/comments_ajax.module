@@ -23,7 +23,7 @@
 					</div>
 					<div class="comment_info">
 						<ul>
-							<li class="date"><?php print date("D M j G:i:s", $profile->timestamp)?></li>
+							<li class="date"><?php print date("M d, Y \a\t g:i A", $profile->timestamp)?></li>
 							<li><a href="<?php print "/comment/reply/" . $comment->nid . '/' . $comment->cid ?>">Reply</a></li>
 							<li class="fb_like"><fb:like colorscheme="dark" font="verdana" action="like" width="350" show_faces="false" layout="button_count" href="http://staging.academicroom.com/node/"></fb:like></li>
 							<li><a>Report</a></li>
