@@ -5,18 +5,19 @@
  */
 function comments_ajax_menu() {
   $items = array();
-  $items['comments/get'] = array(
-    'title' => 'Dynamic comments',
+  $items['comments/get/%/%'] = array(
+    'title' => 'Load comments',
     'page callback' => 'comments_ajax_load',
+    'page arguments' => array(2,3),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
   return $items;
 }
 
-function comments_ajax_load($nid){
+function comments_ajax_load($nid, $cid){
   // Call the views_embed_view function to returned themed view output
-  $res = views_embed_view('newsfeed_comment', 'block_2', array($nid));
+  $res = views_embed_view('newsfeed_comment', 'block_2', array($nid, $cid));
   // create a JSON object. The object will contain a property named “products” that will be set with the themed result of the executed view. 
   return drupal_json(array('comments'=>$res));
   exit;
