@@ -22,24 +22,11 @@ function comments_ajax_load($nid){
   exit;
 }
 
-/**
- * Implement hook_theme().
- */
-function comments_ajax_theme() {
-   return array(
-      'comments_ajax_javascript' => array(
-         'arguments' => array(),
-      ),
-   );   
-}
 
 /**
  * Implement hook_init().
  */
 function comments_ajax_init() {
-  theme('comments_ajax_javascript');
-}
-
-function theme_comments_ajax_javascript() {
   drupal_add_js(drupal_get_path('module', 'comments_ajax') . '/comments_ajax.js');
 }
+

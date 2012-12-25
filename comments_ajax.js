@@ -14,6 +14,5 @@ Drupal.behaviors.comments_ajax = function (context) {
       data: 'js=1' //Pass a key/value pair
     });
     return false;  // return false so the navigation stops here and not continue to the page in the link
-}).addClass('commentsLink-processed');
+  }).addClass('commentsLink-processed');
 }
-l(t('My link'),'comments/get' . $nid ,array('attributes' => array('class' => 'widelink','rel' => 'lightbox',)));
