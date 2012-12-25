@@ -63,7 +63,7 @@ function comments_ajax_comment_form($form_state, $nid) {
 			'progress' => array('type' => 'bar', 'message' => t('Please wait...')),
 		),
 	);
-  $form['submit']['#attributes'] = array('class' => 'comment_submit_button');
+  $form['submit']['#attributes'] = array('class' => 'comments_ajax_submit_button');
   return $form;
 }
 
