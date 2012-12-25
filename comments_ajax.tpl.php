@@ -4,6 +4,7 @@
  * $comment
  * $user
  * $avatar
+ * $profile
  */
 ?>
 <div class="view view-newsfeed-comment view-id-newsfeed_comment view-display-id-block_1 view-dom-id-f8d83bc3ef5aa88aeb66a8d2b6067c68">
@@ -16,7 +17,7 @@
               <?php print $avatar?>
 						</a>
 					</div>
-					<div class="comment_detail"><a href="<?php print "/users/" . $user->uid?>" ><?php print $user->name?></a>
+					<div class="comment_detail"><a href="<?php print "/users/" . $user->uid?>" ><?php print $profile->title?></a>
             <div class="comment_body"><p>How do this function working?</p></div>
 					</div>
 					<div class="comment_info">
