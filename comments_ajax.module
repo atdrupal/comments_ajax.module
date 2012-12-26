@@ -45,7 +45,7 @@ function comments_ajax_comment_form($form_state, $nid) {
     '#size' => 3,
     '#maxlength' => 200,
     '#required' => TRUE,
-    '#default_value' => 'Reply or add a comment',
+//    '#default_value' => 'Reply or add a comment',
   );
   $form['nid'] = array(
       '#type' => 'hidden',
@@ -60,9 +60,10 @@ function comments_ajax_comment_form($form_state, $nid) {
 			'wrapper' => 'divComments-' . $nid,
 			'method' => 'append',
 			'effect' => 'fade',
-			'progress' => array('type' => 'bar', 'message' => t('Please wait...')),
+			'progress' => array('message' => t('Please wait...')),
 		),
 	);
+  $form['comment']['#attributes'] = array('title' => 'Reply or add a comment');
   $form['submit']['#attributes'] = array('class' => 'comments_ajax_submit_button');
   return $form;
 }
@@ -86,6 +87,11 @@ function comments_ajax_form_callback() {
   }
   $user_image = theme('imagecache', 'newsfeeds_comment_avatar', $user_image_path);
   $avatar =  l($user_image, 'user/' . $user->uid, array('attributes' => array('target'=>"_blank"), 'html' => TRUE,));
+  
+  if (empty($_REQUEST['comment'])) {
+    return drupal_json(array('status' => TRUE, 'data' => ''));
+  }
+  
   
   $comment = array();
   $comment['nid'] = $_REQUEST['nid'];
