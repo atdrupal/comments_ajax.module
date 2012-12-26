@@ -60,7 +60,7 @@ function comments_ajax_comment_form($form_state, $nid) {
 			'wrapper' => 'divComments-' . $nid,
 			'method' => 'append',
 			'effect' => 'fade',
-			'progress' => array('message' => t('Please wait...')),
+			'progress' => array('type' => 'throbber','message' => t('Please wait...')),
 		),
 	);
   $form['comment']['#attributes'] = array('title' => 'Reply or add a comment');
