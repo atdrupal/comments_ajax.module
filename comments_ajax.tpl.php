@@ -47,7 +47,10 @@
                   <?php print $avatar?>
                 </a>
               </div>
-              <div class="comment_detail"><a href="<?php print "/users/" . $user->uid?>" ><?php print $profile->title?></a></div>
+              <div class="comment_detail">
+                <a href="<?php print "/users/" . $user->uid?>" ><?php print $profile->title?></a>
+                <div class="comment_body"><?php print $comment->comment ?></div>
+              </div>
               <div class="comment_info">
                 <ul>
                   <li class="date"><?php print date("M d, Y \a\t g:i A", $profile->timestamp)?></li>
