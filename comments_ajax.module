@@ -96,5 +96,5 @@ function comments_ajax_form_callback() {
   
 	$output = theme('comments_ajax_theme', $user, $profile, $comment, $avatar);
   
-	drupal_json(array('status' => TRUE, 'data' => $output));
+	return drupal_json(array('status' => TRUE, 'data' => $output));
 }
