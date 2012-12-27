@@ -118,8 +118,7 @@ function comments_ajax_post($nid) {
 	);
   $form['#prefix'] = "<div>";
   $form['#suffix'] = "</div>";
-  $data = drupal_render($form);
-  return drupal_json(array('form' => $data, 'nid' => $nid));
+  return drupal_json(array('form' => $form, 'nid' => $nid));
   exit;
 }
 
