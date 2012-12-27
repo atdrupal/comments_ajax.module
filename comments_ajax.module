@@ -120,7 +120,7 @@ function comments_ajax_comment_form_submit() {
  * Menu callback
  */
 function comments_ajax_post($nid) {
-  $form = drupal_get_form('comments_ajax_comment_form', $nid);
+  $form = drupal_get_form('comments_ajax_comment_form', $nid, TRUE);
   return drupal_json(array('form' => $form, 'nid' => $nid));
   exit;
 }
