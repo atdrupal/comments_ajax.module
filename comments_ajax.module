@@ -116,7 +116,10 @@ function comments_ajax_post($nid) {
 		'#value' => $comments,
     '#weight' => -10,
 	);
-  return drupal_json(array('form' => $form, 'nid' => $nid));
+  $form['#prefix'] = "<div>";
+  $form['#suffix'] = "</div>";
+  $data = drupal_render($form);
+  return drupal_json(array('form' => $data, 'nid' => $nid));
   exit;
 }
 
