@@ -7,7 +7,7 @@ function comments_ajax_menu() {
   $items['comment/list/all/%/%'] = array(
     'title' => 'Load comments',
     'page callback' => 'comments_ajax_show_all',
-    'page arguments' => array(2,3),
+    'page arguments' => array(3,4),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
