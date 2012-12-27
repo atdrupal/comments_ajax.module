@@ -7,6 +7,7 @@ Drupal.behaviors.comments_ajax = function (context) {
       $("#" + "divComments-" + data.nid).html(data.comments);
     }
     var args = this.href.split("/");
+    alert(args[args.length - 2]);
     $("#" + "my-loading-" + args[args.length - 2]).css('visibility','visible');
     $.ajax({
       type: 'POST',
