@@ -45,8 +45,17 @@ function comments_ajax_show_all($nid, $cid){
 /**
  * Form comment
  */
-function comments_ajax_comment_form($form_state, $nid) {
+function comments_ajax_comment_form($form_state, $nid, $comments = FALSE) {
   $form = array();
+  if ($comments) {
+    $comments = views_embed_view('newsfeed_comment', 'block_2', array($nid));
+    $form['new_row_wrapper'] = array(
+      '#type' => 'markup',
+      '#value' => $comments,
+      '#weight' => -10,
+    );
+  }
+  
   $form['comment']=array(
     '#type' => 'textarea',
     '#title' => 'Comment',
@@ -73,6 +82,8 @@ function comments_ajax_comment_form($form_state, $nid) {
 	);
   $form['comment']['#attributes'] = array('title' => 'Reply or add a comment');
   $form['submit']['#attributes'] = array('class' => 'comments_ajax_submit_button');
+  $form['#prefix'] = "<div class='form-comments'>";
+  $form['#suffix'] = "</div>";
   return $form;
 }
 
@@ -110,14 +121,6 @@ function comments_ajax_comment_form_submit() {
  */
 function comments_ajax_post($nid) {
   $form = drupal_get_form('comments_ajax_comment_form', $nid);
-  $comments = views_embed_view('newsfeed_comment', 'block_2', array($nid));
-  $form['new_row_wrapper'] = array(
-		'#type' => 'markup',
-		'#value' => $comments,
-    '#weight' => -10,
-	);
-  $form['#prefix'] = "<div>";
-  $form['#suffix'] = "</div>";
   return drupal_json(array('form' => $form, 'nid' => $nid));
   exit;
 }
