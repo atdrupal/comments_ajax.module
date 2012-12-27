@@ -121,18 +121,18 @@ function comments_ajax_comment_form_submit() {
  * Menu callback
  */
 function comments_ajax_post($nid) {
-  $form = drupal_get_form('comments_ajax_comment_form', $nid, TRUE);
-  
-  $javascript = drupal_add_js(NULL, NULL);
-  $settings = FALSE;
-
-  if(isset($javascript['settings'])) {
-    $settings = '<script type="text/javascript">jQuery.extend(Drupal.settings, '. drupal_json_encode(call_user_func_array('array_merge_recursive', $javascript['settings']['data'])) .');</script>';
-  }
-  
-  $html = $form . $settings;
-  return drupal_json(array('form' => $html, 'nid' => $nid));
-  exit;
+//  $form = drupal_get_form('comments_ajax_comment_form', $nid, TRUE);
+//  
+//  $javascript = drupal_add_js(NULL, NULL);
+//  $settings = FALSE;
+//
+//  if(isset($javascript['settings'])) {
+//    $settings = '<script type="text/javascript">jQuery.extend(Drupal.settings, '. drupal_json_encode(call_user_func_array('array_merge_recursive', $javascript['settings']['data'])) .');</script>';
+//  }
+//  
+//  $html = $form . $settings;
+//  return drupal_json(array('form' => $html, 'nid' => $nid));
+//  exit;
   //echo $html;
   
   $form = drupal_get_form('comments_ajax_comment_form', $nid, TRUE);
