@@ -65,7 +65,7 @@ function comments_ajax_comment_form($form_state, $nid) {
 		'#submit' => array(),
 		'#ahah' => array(
 			'path' => 'comments_ajax_comment_form_submit',
-			'wrapper' => 'divCommentst-' . $nid,
+			'wrapper' => 'divComments-' . $nid,
 			'method' => 'append',
 			'effect' => 'fade',
 			'progress' => array('type' => 'throbber','message' => t('Please wait...')),
