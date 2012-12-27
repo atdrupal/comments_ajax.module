@@ -39,6 +39,7 @@ function comments_ajax_show_all($nid, $cid){
   // Load newsfeed_comment
   $comments = views_embed_view('newsfeed_comment', 'block_2', array($nid, $cid));
   return drupal_json(array('comments' => $comments, 'nid' => $nid));
+  exit;
 }
 
 /**
