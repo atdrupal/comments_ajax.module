@@ -45,7 +45,7 @@ function comments_ajax_show_all($nid, $cid){
 /**
  * Form comment
  */
-function comments_ajax_comment_form($form_state, $nid, $comments = FALSE) {
+function comments_ajax_comment_form($form_state, $nid, $cid = FALSE, $comments = FALSE) {
   $form = array();
   if ($comments) {
     $comments = views_embed_view('newsfeed_comment', 'block_2', array($nid));
@@ -135,7 +135,7 @@ function comments_ajax_post($nid) {
 //  exit;
   //echo $html;
   
-  $form = drupal_get_form('comments_ajax_comment_form', $nid, TRUE);
+  $form = drupal_get_form('comments_ajax_comment_form', $nid, FALSE, TRUE);
 //  $javascript = drupal_add_js(NULL, NULL);
 //  $settings = FALSE;
 //  if(isset($javascript['settings']))
