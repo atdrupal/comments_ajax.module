@@ -117,6 +117,7 @@ function comments_ajax_post($nid) {
     '#weight' => -10,
 	);
   return drupal_json(array('form' => $form, 'nid' => $nid));
+  exit;
 }
 
 
@@ -197,3 +198,5 @@ function comments_ajax_theme() {
 function comments_ajax_init() {
   drupal_add_js(drupal_get_path('module', 'comments_ajax') . '/comments_ajax.js');
 }
+
+
