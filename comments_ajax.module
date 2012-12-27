@@ -54,6 +54,7 @@ function comments_ajax_comment_form($form_state, $nid, $comments = FALSE) {
       '#value' => $comments,
       '#weight' => -10,
     );
+    
   }
   
   $form['comment']=array(
@@ -121,7 +122,13 @@ function comments_ajax_comment_form_submit() {
  */
 function comments_ajax_post($nid) {
   $form = drupal_get_form('comments_ajax_comment_form', $nid, TRUE);
-  return drupal_json(array('form' => $form, 'nid' => $nid));
+  $javascript = drupal_add_js(NULL, NULL);
+  $settings = FALSE;
+  if(isset($javascript['settings']))
+  {
+    $settings = '<script type="text/javascript">jQuery.extend(Drupal.settings, ' . drupal_json_encode(call_user_func_array('array_merge_recursive', $javascript['settings']['data'])) . ');</script>';
+  }
+  return drupal_json(array('form' => $form, 'nid' => $nid, 'setting', $setting));
   exit;
 }
 
