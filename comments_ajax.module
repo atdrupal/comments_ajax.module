@@ -121,7 +121,7 @@ function comments_ajax_comment_form_submit() {
  * Menu callback
  */
 function comments_ajax_post($nid) {
-  $form = drupal_render(drupal_get_form('comments_ajax_comment_form', $nid, TRUE));
+  $form = drupal_get_form('comments_ajax_comment_form', $nid, TRUE);
   
   $javascript = drupal_add_js(NULL, NULL);
   $settings = FALSE;
