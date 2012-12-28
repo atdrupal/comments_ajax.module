@@ -4,10 +4,10 @@
  * Implement hook_menu
  */
 function comments_ajax_menu() {
-  $items['comment/list/all/%/%'] = array(
+  $items['comment/list/all/%/%/%'] = array(
     'title' => 'Load comments',
     'page callback' => 'comments_ajax_show_all',
-    'page arguments' => array(3,4),
+    'page arguments' => array(2,3,4),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
@@ -21,11 +21,11 @@ function comments_ajax_menu() {
   return $items;
 }
 
-function comments_ajax_show_all($nid, $cid){
+function comments_ajax_show_all($prefix_class, $nid, $cid){
   $comments = views_embed_view('newsfeed_comment', 'block_2', array($nid, $cid));
   ctools_include('ajax');
   $commands = array();
-  $commands[] = ctools_ajax_command_html("#div-comments-{$nid}", $comments);
+  $commands[] = ctools_ajax_command_html("#{$prefix_class}-{$nid}", $comments);
   ctools_ajax_render($commands); 
 }
 
