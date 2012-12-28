@@ -105,13 +105,21 @@ function comments_ajax_comment_form_submit($form, $form_state) {
  * Menu callback
  */
 function comments_ajax_post($nid) {
-  $comments = views_embed_view('newsfeed_comment', 'block_2', array($nid));
-  $list_comment = "<div class=homePopular><div class=newsfeed_comment><div id=list-comments-{$nid}>{$comments}</div></div></div>";
-  $content = '<div class=form-comments>' . drupal_get_form('comments_ajax_comment_form', $nid, FALSE, TRUE) . '</div>';
-  $content = $list_comment . $content;
+  ctools_include('ajax');
+  ctools_include('modal');
+  ctools_modal_add_js();
+	$link_show_all = ctools_ajax_text_button(t("Comment"), "/comment/post/{$nid}/0");
+  
+  $header = "<div class=comment_header>Recent comments {$link_show_all}</div>";
+  $comments = views_embed_view('newsfeed_comment', 'block_1', array($nid));
+  $list_comment = "{$header}<div class=homePopular><div class=newsfeed_comment><div id=list-comments-{$nid}>{$comments}</div></div></div>";
+  
+  $form = '<div class=form-comments>' . drupal_get_form('comments_ajax_comment_form', $nid, FALSE, TRUE) . '</div>';
+  
   ctools_include('ajax');
   $commands = array();
-  $commands[] = ctools_ajax_command_html("#div-comments-post-{$nid}", $content);
+  $commands[] = ctools_ajax_command_html("#div-comments-post-{$nid}", $list_comment);
+  $commands[] = ctools_ajax_command_html("#div-form-post-{$nid}", $form);
   ctools_ajax_render($commands); 
 }
 
