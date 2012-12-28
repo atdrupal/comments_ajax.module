@@ -34,18 +34,18 @@ function comments_ajax_show_all($nid, $cid){
  */
 function comments_ajax_comment_form($form_state, $nid, $cid = 0, $comments = FALSE) {
   $form = array();
-  if ($comments) {
-    $comments = views_embed_view('newsfeed_comment', 'block_2', array($nid));
-    $form['comments_wapper'] = array(
-      '#type' => 'markup',
-      '#value' => "<div class=homePopular><div class=newsfeed_comment><div id=list-comments-{$nid}>{$comments}</div></div></div>",
-      '#weight' => -10,
-    );
-    $form['list-comments'] = array(
-      '#type' => 'hidden',
-      '#value' => TRUE,
-    );
-  }
+//  if ($comments) {
+//    $comments = views_embed_view('newsfeed_comment', 'block_2', array($nid));
+//    $form['comments_wapper'] = array(
+//      '#type' => 'markup',
+//      '#value' => "<div class=homePopular><div class=newsfeed_comment><div id=list-comments-{$nid}>{$comments}</div></div></div>",
+//      '#weight' => -10,
+//    );
+//    $form['list-comments'] = array(
+//      '#type' => 'hidden',
+//      '#value' => TRUE,
+//    );
+//  }
   $form['comment']=array(
     '#type' => 'textarea',
     '#title' => 'Comment',
@@ -105,13 +105,14 @@ function comments_ajax_comment_form_submit($form, $form_state) {
  * Menu callback
  */
 function comments_ajax_post($nid) {
-  $form = drupal_get_form('comments_ajax_comment_form', $nid, FALSE, TRUE);
+  $comments = views_embed_view('newsfeed_comment', 'block_2', array($nid));
+  $list_comment = "<div class=homePopular><div class=newsfeed_comment><div id=list-comments-{$nid}>{$comments}</div></div></div>";
+  $content = drupal_get_form('comments_ajax_comment_form', $nid, FALSE, TRUE);
+  $content .= $list_comment;
   ctools_include('ajax');
   $commands = array();
-  $commands[] = ctools_ajax_command_html("#div-comments-post-{$nid}", $form);
+  $commands[] = ctools_ajax_command_html("#div-comments-post-{$nid}", $content);
   ctools_ajax_render($commands); 
-  
-
 }
 
 /**
