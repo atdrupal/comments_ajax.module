@@ -108,13 +108,13 @@ function comments_ajax_post($nid) {
   ctools_include('ajax');
   ctools_include('modal');
   ctools_modal_add_js();
-	$link_show_all = ctools_ajax_text_button(t("Show all"), "comment/list/all{$nid}/0");
+	$link_show_all = ctools_ajax_text_button(t("Show all"), "comment/list/all/{$nid}/0");
   
   $header = "<div class=comment_header>Recent comments {$link_show_all}</div>";
   $comments = views_embed_view('newsfeed_comment', 'block_1', array($nid));
-  $list_comment = "{$header}<div class=homePopular><div class=newsfeed_comment><div id=list-comments-{$nid}>{$comments}</div></div></div>";
+  $list_comment = "{$header}<div id=list-comments-{$nid}>{$comments}</div>";
   
-  $form = '<div class=form-comments>' . drupal_get_form('comments_ajax_comment_form', $nid, FALSE, TRUE) . '</div>';
+  $form = drupal_get_form('comments_ajax_comment_form', $nid, FALSE, TRUE);
   
   ctools_include('ajax');
   $commands = array();
