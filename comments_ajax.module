@@ -11,13 +11,6 @@ function comments_ajax_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
-  $items['comments_ajax_comment_form_submit'] = array(
-    'page callback' => 'comments_ajax_comment_form_submit',
-    'access callback' => TRUE,
-    'type' => MENU_CALLBACK,
-  );
-  
-  // Callback when click link
   $items['comment/post/%'] = array(
     'title' => 'Form comments',
     'page callback' => 'comments_ajax_post',
@@ -25,45 +18,36 @@ function comments_ajax_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
-//  // Callback when form submit
-//  $items['comments_ajax_comment_list_form_submit'] = array(
-//    'title' => 'Send',
-//    'page callback' => 'comments_ajax_comment_list_form_submit',
-//    'access arguments' => array('access content'),
-//    'type' => MENU_CALLBACK
-//  );
   return $items;
 }
 
 function comments_ajax_show_all($nid, $cid){
-  // Load newsfeed_comment
   $comments = views_embed_view('newsfeed_comment', 'block_2', array($nid, $cid));
-  return drupal_json(array('comments' => $comments, 'nid' => $nid));
-  exit;
+  ctools_include('ajax');
+  $commands = array();
+  $commands[] = ctools_ajax_command_html("#div-comments-{$nid}", $comments);
+  ctools_ajax_render($commands); 
 }
 
 /**
  * Form comment
  */
-function comments_ajax_comment_form($form_state, $nid, $cid = FALSE, $comments = FALSE) {
+function comments_ajax_comment_form($form_state, $nid, $cid = 0, $comments = FALSE) {
   $form = array();
   if ($comments) {
     $comments = views_embed_view('newsfeed_comment', 'block_2', array($nid));
-    $form['new_row_wrapper'] = array(
+    $form['comments_wapper'] = array(
       '#type' => 'markup',
       '#value' => $comments,
       '#weight' => -10,
     );
-    
   }
-  
   $form['comment']=array(
     '#type' => 'textarea',
     '#title' => 'Comment',
     '#size' => 3,
     '#maxlength' => 200,
     '#required' => TRUE,
-//    '#default_value' => 'Reply or add a comment',
   );
   $form['nid'] = array(
       '#type' => 'hidden',
@@ -72,28 +56,17 @@ function comments_ajax_comment_form($form_state, $nid, $cid = FALSE, $comments =
   $form['submit'] = array(
 		'#type' => 'submit',
 		'#value' => t('post'),
-		'#submit' => array(),
-		'#ahah' => array(
-			'path' => 'comments_ajax_comment_form_submit',
-			'wrapper' => 'divComments-' . $nid,
-			'method' => 'append',
-			'effect' => 'fade',
-			'progress' => array('type' => 'throbber','message' => t('Please wait...')),
-		),
+		'#attributes' => array('class' => 'ctools-use-ajax comments_ajax_submit_button', 'title' => 'Reply or add a comment'),
 	);
-  $form['comment']['#attributes'] = array('title' => 'Reply or add a comment');
-  $form['submit']['#attributes'] = array('class' => 'comments_ajax_submit_button');
   $form['#prefix'] = "<div class='form-comments'>";
   $form['#suffix'] = "</div>";
   return $form;
 }
 
-
-
 /**
  * Menu ahah callback
  */
-function comments_ajax_comment_form_submit() {
+function comments_ajax_comment_form_submit($form, $form_state) {
   global $user;
   $profile = content_profile_load('basic', $user->uid, '', NULL);
   $user_image_path = $profile->field_user_picture[0]['filepath'];
@@ -103,17 +76,18 @@ function comments_ajax_comment_form_submit() {
   $user_image = theme('imagecache', 'newsfeeds_comment_avatar', $user_image_path);
   $avatar =  l($user_image, 'user/' . $user->uid, array('attributes' => array('target'=>"_blank"), 'html' => TRUE,));
   
-  if (empty($_REQUEST['comment'])) {
-    return drupal_json(array('status' => TRUE, 'data' => ''));
-  }
-  $comment['nid'] = $_REQUEST['nid'];
+  $comment['nid'] = $form_state['values']['nid'];
   $comment['uid'] = $user->uid;
-  $comment['comment'] = $_REQUEST['comment'];
+  $comment['comment'] = $form_state['values']['comment'];
   $cid = comment_save($comment);
   $comment = _comment_load($cid);
   
 	$output = theme('comments_ajax_theme', $user, $profile, $comment, $avatar);
-	return drupal_json(array('status' => TRUE, 'data' => $output));
+  
+	ctools_include('form');
+  ctools_include('ajax');
+  $commands [] = ctools_ajax_command_append ( '#ahah-example-new-row-wrapper', $output);
+  ctools_ajax_render($commands);
 }
 
 
@@ -121,90 +95,12 @@ function comments_ajax_comment_form_submit() {
  * Menu callback
  */
 function comments_ajax_post($nid) {
-//  $form = drupal_get_form('comments_ajax_comment_form', $nid, TRUE);
-//  
-//  $javascript = drupal_add_js(NULL, NULL);
-//  $settings = FALSE;
-//
-//  if(isset($javascript['settings'])) {
-//    $settings = '<script type="text/javascript">jQuery.extend(Drupal.settings, '. drupal_json_encode(call_user_func_array('array_merge_recursive', $javascript['settings']['data'])) .');</script>';
-//  }
-//  
-//  $html = $form . $settings;
-//  return drupal_json(array('form' => $html, 'nid' => $nid));
-//  exit;
-  //echo $html;
-  
   $form = drupal_get_form('comments_ajax_comment_form', $nid, FALSE, TRUE);
-//  $javascript = drupal_add_js(NULL, NULL);
-//  $settings = FALSE;
-//  if(isset($javascript['settings']))
-//  {
-//    $settings = '<script type="text/javascript">jQuery.extend(Drupal.settings, ' . drupal_json_encode(call_user_func_array('array_merge_recursive', $javascript['settings']['data'])) . ');</script>';
-//  }
-  return drupal_json(array('form' => $form, 'nid' => $nid));//s, 'setting'=> $setting));
-  exit;
+  ctools_include('ajax');
+  $commands = array();
+  $commands[] = ctools_ajax_command_html("#div-comments-post-{$nid}", $form);
+  ctools_ajax_render($commands); 
 }
-
-
-//function comments_ajax_form_load($nid){
-//  
-//  
-//  $form = drupal_get_form('');
-//  return drupal_json(array('comments' => $form, 'nid' => $nid));
-//  exit;
-//}
-//
-///**
-// * Form post comment:
-// * - Form post comment
-// * - List comments
-// */
-//function comments_ajax_comment_list_form($form_state, $nid) {
-//  // List comments
-//  $comments = views_embed_view('newsfeed_comment', 'block_2', array($nid));
-//  $form['new_row_wrapper'] = array(
-//		'#type' => 'markup',
-//		'#value' => $comments,
-//	);
-//  
-//  $form['comment']=array(
-//    '#type' => 'textarea',
-//    '#title' => 'Comment',
-//    '#size' => 3,
-//    '#maxlength' => 200,
-//    '#required' => TRUE,
-////    '#default_value' => 'Reply or add a comment',
-//  );
-//  $form['nid'] = array(
-//      '#type' => 'hidden',
-//      '#value' => $nid,
-//      );
-//  $form['submit'] = array(
-//		'#type' => 'submit',
-//		'#value' => t('post'),
-//		'#submit' => array(),
-//		'#ahah' => array(
-//			'path' => 'comments_ajax_comment_list_form_submit',
-//			'wrapper' => 'divComments-' . $nid,
-//			'method' => 'append',
-//			'effect' => 'fade',
-//			'progress' => array('type' => 'throbber','message' => t('Please wait...')),
-//		),
-//	);
-//  $form['comment']['#attributes'] = array('title' => 'Reply or add a comment');
-//  $form['submit']['#attributes'] = array('class' => 'comments_ajax_submit_button');
-//  return $form;
-//}
-//
-///**
-// * Menu ahah callback
-// */
-//function comments_ajax_comment_list_form_submit() {
-//  
-//}
-
-
 
 /**
  * Implement hook_theme()
@@ -216,13 +112,6 @@ function comments_ajax_theme() {
       'arguments' => array('user' => NULL, 'profile' => NULL, 'comment' => NULL, 'avatar' => NULL),
     ),
   );
-}
-
-/**
- * Implement hook_init().
- */
-function comments_ajax_init() {
-  drupal_add_js(drupal_get_path('module', 'comments_ajax') . '/comments_ajax.js');
 }
 
 
