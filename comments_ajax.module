@@ -108,7 +108,7 @@ function comments_ajax_post($nid) {
   ctools_include('ajax');
   ctools_include('modal');
   ctools_modal_add_js();
-	$link_show_all = ctools_ajax_text_button(t("Comment"), "/comment/post/{$nid}/0");
+	$link_show_all = ctools_ajax_text_button(t("Show all"), "comment/list/all{$nid}/0");
   
   $header = "<div class=comment_header>Recent comments {$link_show_all}</div>";
   $comments = views_embed_view('newsfeed_comment', 'block_1', array($nid));
