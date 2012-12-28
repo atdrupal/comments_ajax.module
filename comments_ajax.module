@@ -38,7 +38,7 @@ function comments_ajax_comment_form($form_state, $nid, $cid = 0, $comments = FAL
     $comments = views_embed_view('newsfeed_comment', 'block_2', array($nid));
     $form['comments_wapper'] = array(
       '#type' => 'markup',
-      '#value' => "<div id=list-comments-{$nid}>{$comments}</div>",
+      '#value' => "<div class=homePopular><div class=newsfeed_comment><div id=list-comments-{$nid}>{$comments}</div></div></div>",
       '#weight' => -10,
     );
     $form['list-comments'] = array(
