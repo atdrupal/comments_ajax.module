@@ -41,6 +41,10 @@ function comments_ajax_comment_form($form_state, $nid, $cid = 0, $comments = FAL
       '#value' => $comments,
       '#weight' => -10,
     );
+    $form['$comments'] = array(
+      '#type' => 'hidden',
+      '#value' => TRUE,
+    );
   }
   $form['comment']=array(
     '#type' => 'textarea',
@@ -52,7 +56,7 @@ function comments_ajax_comment_form($form_state, $nid, $cid = 0, $comments = FAL
   $form['nid'] = array(
       '#type' => 'hidden',
       '#value' => $nid,
-      );
+  );
   $form['submit'] = array(
 		'#type' => 'submit',
 		'#value' => t('post'),
@@ -86,7 +90,13 @@ function comments_ajax_comment_form_submit($form, $form_state) {
   
 	ctools_include('form');
   ctools_include('ajax');
-  $commands [] = ctools_ajax_command_append ( '#ahah-example-new-row-wrapper', $output);
+  
+  // Have comments
+  if (isset($form_state['values']['comments'])) {
+    $commands [] = ctools_ajax_command_append ('#ahah-example-new-row-wrapper', $output);
+    ctools_ajax_render($commands);
+  }
+  $commands [] = ctools_ajax_command_append ("#div-comments-{$form_state['values']['nid']}", $output);
   ctools_ajax_render($commands);
 }
 
@@ -100,6 +110,8 @@ function comments_ajax_post($nid) {
   $commands = array();
   $commands[] = ctools_ajax_command_html("#div-comments-post-{$nid}", $form);
   ctools_ajax_render($commands); 
+  
+
 }
 
 /**
