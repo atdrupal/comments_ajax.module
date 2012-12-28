@@ -60,7 +60,7 @@ function comments_ajax_comment_form($form_state, $nid, $cid = 0, $comments = FAL
   $form['submit'] = array(
 		'#type' => 'submit',
 		'#value' => t('post'),
-		'#attributes' => array('class' => 'ctools-use-ajax comments_ajax_submit_button', 'title' => 'Reply or add a comment'),
+		'#attributes' => array('class' => 'ctools-use-ajax', 'title' => 'Reply or add a comment'),
 	);
   $form['#prefix'] = "<div class='form-comments'>";
   $form['#suffix'] = "</div>";
@@ -80,9 +80,9 @@ function comments_ajax_comment_form_submit($form, $form_state) {
   $user_image = theme('imagecache', 'newsfeeds_comment_avatar', $user_image_path);
   $avatar =  l($user_image, 'user/' . $user->uid, array('attributes' => array('target'=>"_blank"), 'html' => TRUE,));
   
-  $comment['nid'] = $form_state['values']['nid'];
+  $comment['nid'] = $form_state['clicked_button']['#post']['nid'];
   $comment['uid'] = $user->uid;
-  $comment['comment'] = $form_state['values']['comment'];
+  $comment['comment'] = $form_state['clicked_button']['#post']['comment'];
   $cid = comment_save($comment);
   $comment = _comment_load($cid);
   
@@ -96,7 +96,7 @@ function comments_ajax_comment_form_submit($form, $form_state) {
     $commands [] = ctools_ajax_command_append ('#ahah-example-new-row-wrapper', $output);
     ctools_ajax_render($commands);
   }
-  $commands [] = ctools_ajax_command_append ("#div-comments-{$form_state['values']['nid']}", $output);
+  $commands [] = ctools_ajax_command_append ("#div-comments-{$form_state['clicked_button']['#post']['nid']}", $output);
   ctools_ajax_render($commands);
 }
 
