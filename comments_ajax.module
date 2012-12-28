@@ -54,7 +54,7 @@ function comments_ajax_comment_form($form_state, $nid, $cid = 0, $comments = FAL
   $form['submit'] = array(
 		'#type' => 'submit',
 		'#value' => t('post'),
-		'#attributes' => array('class' => 'ctools-use-ajax', 'title' => 'Reply or add a comment'),
+		'#attributes' => array('class' => 'ctools-use-ajax comments_ajax_submit_button1', 'title' => 'Reply or add a comment'),
 	);
   $form['#prefix'] = "<div class='form-comments'>";
   $form['#suffix'] = "</div>";
