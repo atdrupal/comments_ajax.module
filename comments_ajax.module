@@ -41,7 +41,7 @@ function comments_ajax_comment_form($form_state, $nid, $cid = 0, $comments = FAL
       '#value' => "<div id=list-comments-{$nid}>{$comments}</div>",
       '#weight' => -10,
     );
-    $form['$comments'] = array(
+    $form['list-comments'] = array(
       '#type' => 'hidden',
       '#value' => TRUE,
     );
@@ -92,7 +92,7 @@ function comments_ajax_comment_form_submit($form, $form_state) {
   ctools_include('ajax');
   
   // Have comments
-  if (isset($form_state['values']['comments'])) {
+  if (isset($form_state['values']['list-comments'])) {
     $commands [] = ctools_ajax_command_append ("#list-comments-{$form_state['clicked_button']['#post']['nid']}", $output);
     ctools_ajax_render($commands);
   }
