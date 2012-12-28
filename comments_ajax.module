@@ -7,7 +7,7 @@ function comments_ajax_menu() {
   $items['comment/list/all/%/%/%'] = array(
     'title' => 'Load comments',
     'page callback' => 'comments_ajax_show_all',
-    'page arguments' => array(2,3,4),
+    'page arguments' => array(3, 4, 5),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
@@ -34,18 +34,12 @@ function comments_ajax_show_all($prefix_class, $nid, $cid){
  */
 function comments_ajax_comment_form($form_state, $nid, $cid = 0, $comments = FALSE) {
   $form = array();
-//  if ($comments) {
-//    $comments = views_embed_view('newsfeed_comment', 'block_2', array($nid));
-//    $form['comments_wapper'] = array(
-//      '#type' => 'markup',
-//      '#value' => "<div class=homePopular><div class=newsfeed_comment><div id=list-comments-{$nid}>{$comments}</div></div></div>",
-//      '#weight' => -10,
-//    );
-//    $form['list-comments'] = array(
-//      '#type' => 'hidden',
-//      '#value' => TRUE,
-//    );
-//  }
+  if ($comments) {
+    $form['list-comments'] = array(
+      '#type' => 'hidden',
+      '#value' => TRUE,
+    );
+  }
   $form['comment']=array(
     '#type' => 'textarea',
     '#title' => 'Comment',
@@ -108,7 +102,7 @@ function comments_ajax_post($nid) {
   ctools_include('ajax');
   ctools_include('modal');
   ctools_modal_add_js();
-	$link_show_all = ctools_ajax_text_button(t("Show all"), "comment/list/all/{$nid}/0");
+	$link_show_all = ctools_ajax_text_button(t("Show all"), "comment/list/all/list-comments/{$nid}/0");
   
   $header = "<div class=comment_header>Recent comments {$link_show_all}</div>";
   $comments = views_embed_view('newsfeed_comment', 'block_1', array($nid));
